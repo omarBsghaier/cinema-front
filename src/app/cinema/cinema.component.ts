@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {CinemaService} from "../service/cinema.service";
+import axios from 'axios'
 @Component({
   selector: 'app-cinema',
   templateUrl: './cinema.component.html',
@@ -14,10 +15,32 @@ export class CinemaComponent implements OnInit{
   public currentCinema :any;
   public currentProjection: any;
   public selectedTickets: any ;
+  public paymeePath: any;
 
   constructor(public cinemaService : CinemaService) {
   }
   ngOnInit(): void {
+    axios.post("https://sandbox.paymee.tn/api/v2/payments/create", {
+      "amount": 8.25,
+      "note": "Order #123",
+      "first_name": "hadhemi",
+      "last_name": "Ouni",
+      "email": "hadhemiOuni@gmail.com",
+      "phone": "+21611222333",
+      "return_url": "http://localhost:4200/success",
+      "cancel_url": "http://localhost:4200/canceled",
+      "webhook_url": "https://www.webhook_url.tn",
+      "order_id": "244557"
+  
+    },{
+      headers: { Authorization: 'Token ' }
+    }).then(res=>{
+      if(res.data.data.payment_url){
+        this.paymeePath = res.data.data.payment_url
+      }else{
+        this.paymeePath = '/canceled'
+      }
+    })
     this.cinemaService.getVilles()
       .subscribe(data =>{
         this.villes = data ;
@@ -120,5 +143,6 @@ export class CinemaComponent implements OnInit{
     })
 
   }
+
 }
 

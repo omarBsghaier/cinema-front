@@ -55,7 +55,9 @@
                               <label class="control-label"> code Payment : </label>
                               <input class="form-control" type="text" name="codePayment"  ngModel >
                             </div>
-                            <button type="submit" class="btn btn-success">Payer</button>
+                            <a href="{{paymeePath}}">
+                              <button type="submit" class="btn btn-success">Payer</button>
+                            </a>
                           </form>
                         </div>
                       </div>
@@ -69,6 +71,8 @@
         </div>
       </div>
     </div>
-
   </div>
+  <a href="{{paymeePath}}">
+    <button type="submit" class="btn btn-success">Payer</button>
+  </a>
 </div>
